@@ -31,46 +31,7 @@ class _LayoutPageWidgetState extends State<LayoutPageWidget> {
   ScrollController _scrollController = ScrollController();
   late FunctionalProvider fp;
 
-  @override
-  void initState() {
-    BackButtonInterceptor.add(_backButton,
-        name: widget.nameInterceptor, context: context);
-    _scrollController = ScrollController();
-    fp = Provider.of<FunctionalProvider>(context, listen: false);
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    BackButtonInterceptor.removeByName(widget.nameInterceptor.toString());
-    super.dispose();
-  }
-
-  Future<bool> _backButton(bool button, RouteInfo info) async {
-    if (widget.nameInterceptor != null) {
-      final fp = Provider.of<FunctionalProvider>(context, listen: false);
-      if (mounted) {
-        if (button) return false;
-        if (fp.alertLoading.isNotEmpty ||
-            (fp.alerts.last.key != widget.keyDismissPage)) {
-          if (fp.closeAlertBack.isNotEmpty &&
-              fp.closeAlertBack.last &&
-              fp.keysAlerts.isNotEmpty) {
-            fp.keysAlerts.isNotEmpty
-                ? fp.dismissAlert(key: fp.keysAlerts.last)
-                : null;
-          } else {}
-
-          return false;
-        } else {}
-        fp.dismissAlert(key: widget.keyDismissPage!);
-      }
-      return true;
-    } else {
-      return true;
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

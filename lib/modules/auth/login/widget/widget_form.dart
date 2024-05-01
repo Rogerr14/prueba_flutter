@@ -5,6 +5,7 @@ import 'package:prueba_app/modules/auth/register/page/register_page.dart';
 import 'package:prueba_app/modules/home/page/home_page.dart';
 import 'package:prueba_app/shared/helpers/global_helpers.dart';
 import 'package:prueba_app/shared/providers/functional_provider.dart';
+import 'package:prueba_app/shared/services/firebase_methods.dart';
 
 
 class WidgetForm extends StatefulWidget {
@@ -25,8 +26,7 @@ class _WidgetFormState extends State<WidgetForm> {
 
   @override
   Widget build(BuildContext context) {
-
-    final fp = Provider.of<FunctionalProvider>(context, listen: false);
+    FirebaseAuthentication authMethods = FirebaseAuthentication();
     return Form(
       key: _formKey,
       child: Center(
@@ -43,10 +43,11 @@ class _WidgetFormState extends State<WidgetForm> {
             textFormFieldWidget(hintText: 'Contraseña', controller: passwordController,),
             SizedBox(height: 30,),
             OutlinedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    print('ok');
-                    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    if(await authMethods.signInWithEmailAndPassword(emailController.text, passwordController.text)){
+                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    }
                   }
                 },
                 child: Text('Register'),
