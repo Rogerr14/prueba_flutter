@@ -1,3 +1,7 @@
+#credential admin
+admin@admin.com
+admin123
+
 # prueba_app
 
 A new Flutter project.
