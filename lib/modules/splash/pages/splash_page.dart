@@ -2,8 +2,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:prueba_app/env/app_theme.dart';
-
+import 'package:prueba_app/env/theme/app_theme.dart';
+import 'package:prueba_app/modules/auth/login/pages/login_page.dart';
+import 'package:prueba_app/shared/helpers/global_helpers.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -14,35 +15,30 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
-  void initState(){
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(
-          const Duration(seconds: 3),
-          () => Navigator.pushNamedAndRemoveUntil(
-              context, '/login', (route) => false));
-    });
-    super.initState();
+  void initState() {
+    debugPrint('splash');
+    WidgetsBinding.instance.addPostFrameCallback((_) async {});
+    Future.delayed(
+        const Duration(seconds: 3),
+        () => Navigator.pushAndRemoveUntil(
+            context,
+            GlobalHelper.navigationFadeIn(context, const LoginPage()),
+            (route) => false));
   }
-
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: AppTheme.primaryColor,
-      body: Center(
-        child: Container(
-          width: 300,
-          height: 300,
-          decoration: BoxDecoration(
-            color: AppTheme.secundaryColor,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Center(
-            child: Text('Splash Page', style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700
-            ),),
-          ),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        height: size.height,
+        width: size.width,
+        alignment: FractionalOffset.center,
+        decoration: const BoxDecoration(color: AppTheme.primaryColor),
+        child: Center(
+          child: Text('Splash Screen', style: TextStyle(fontSize: 40, fontWeight: FontWeight.w700, color: AppTheme.secundaryColor),),
         ),
       ),
     );
